@@ -11,7 +11,7 @@ import { BIG_ZERO } from 'utils/bigNumber'
 import { useWeb3React } from '@web3-react/core'
 // import { usePriceCakeBusd } from 'state/farms/hooks'
 // import Balance from 'components/Balance'
-import useHarvestFarm from '../../hooks/useHarvestFarm'
+import { useHarvestFarm, useHarvestTime } from '../../hooks/useHarvestFarm'
 
 interface FarmCardActionsProps {
   earnings?: BigNumber
@@ -20,9 +20,27 @@ interface FarmCardActionsProps {
 }
 const StyledModal = styled(Modal)`
 padding: 10px;
+text-align: center;
 > :first-child {
   display: none;
 }
+`
+const StyledModalTitle = styled('div')`
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+`
+const StyledModalTimee = styled('div')`
+  color: #53F3C3;
+  font-size: 24px;
+  margin-top: 10px;
+  padding: 10px;
+`
+const StyledModalDescription = styled('div')`
+  color: #8B95A8;
+  font-size: 12px;
+  margin-top: 10px;
+  padding: 10px;
 `
 const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, canHarvest, pid }) => {
   const { account } = useWeb3React()
@@ -37,11 +55,36 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, canHarvest, p
   // const earningsBusd = rawEarningsBalance ? rawEarningsBalance.multipliedBy(cakePrice).toNumber() : 0
 // console.log(earnings)
 
+
+
+const harvestTime = useHarvestTime(pid)
+
+const timeNow = new Date().getTime()/1000
+
+
 const HarvestTimeLockModel = () => {
-  const [actionIndex, setActionIndex] = useState<number>(0)
-  return <StyledModal title={t('Harvest Not Available')}>
-    <span style={{color: 'white'}}>Harvest Not Available</span>
-  </StyledModal>
+  const [timeString, setLeftTime] = useState<string>()
+  const secondsToHms = (d)=>{
+    if(d<=0) return '00:00:00'
+    const h = Math.floor(d / 3600);
+    const m = Math.floor(d % 3600 / 60);
+    const s = Math.floor(d % 3600 % 60);
+  
+    const hDisplay = (h<10?h.toString().padStart(2,"0"):h.toString()).concat(":");
+    const mDisplay = (m<10?m.toString().padStart(2,"0"):m.toString()).concat(":");
+    const sDisplay = (s<10?s.toString().padStart(2,"0"):s.toString());
+    return hDisplay + mDisplay + sDisplay;
+  }
+  setInterval(() => {
+    const now = new Date().getTime()/1000
+    
+    setLeftTime(secondsToHms(harvestTime-now))
+  }, 1000)
+  return  <StyledModal title={t('Harvest Not Available')}>
+  <StyledModalTitle>Harvest Not Available</StyledModalTitle>
+  <StyledModalTimee>{timeString}</StyledModalTimee>
+  <StyledModalDescription>Please try again after timelock ended.</StyledModalDescription>
+</StyledModal>
 }
 
 const [onHarvestLock] = useModal(
@@ -50,27 +93,31 @@ const [onHarvestLock] = useModal(
 
   return (
     <ButtonMenuItem
-      disabled={rawEarningsBalance.eq(0) || pendingTx || !canHarvest}
+      disabled={rawEarningsBalance.eq(0) || pendingTx || !harvestTime}
       onClick={async () => {
-        // if(!canHarvest) 
-        onHarvestLock()
-        // setPendingTx(true)
-        // try {
-        //   await onReward()
-        //   toastSuccess(
-        //     `${t('Harvested')}!`,
-        //     t('Your %symbol% earnings have been sent to your wallet!', { symbol: 'CAKE' }),
-        //   )
-        // } catch (e) {
-        //   toastError(
-        //     t('Error'),
-        //     t('Please try again. Confirm the transaction and make sure you are paying enough gas!'),
-        //   )
-        //   console.error(e)
-        // } finally {
-        //   setPendingTx(false)
-        // }
-        // dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
+        if(harvestTime-timeNow > 0) {
+          onHarvestLock()
+        }
+        else{
+          setPendingTx(true)
+          try {
+            await onReward()
+            toastSuccess(
+              `${t('Harvested')}!`,
+              t('Your %symbol% earnings have been sent to your wallet!', { symbol: 'CAKE' }),
+            )
+          } catch (e) {
+            toastError(
+              t('Error'),
+              t('Please try again. Confirm the transaction and make sure you are paying enough gas!'),
+            )
+            console.error(e)
+          } finally {
+            setPendingTx(false)
+          }
+          dispatch(fetchFarmUserDataAsync({ account, pids: [pid] }))
+        }
+        
       }}
     >
       {pendingTx ? t('Harvesting') : t('Harvest')}

@@ -11,7 +11,7 @@ import { fetchFarmUserDataAsync } from 'state/farms'
 import { usePriceCakeBusd } from 'state/farms/hooks'
 import useToast from 'hooks/useToast'
 import { useTranslation } from 'contexts/Localization'
-import useHarvestFarm from '../../../hooks/useHarvestFarm'
+import { useHarvestFarm } from '../../../hooks/useHarvestFarm'
 
 import { ActionContainer, ActionTitles, ActionContent } from './styles'
 

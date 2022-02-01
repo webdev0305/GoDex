@@ -12,11 +12,12 @@ import {
   useTooltip,
 } from '@pancakeswap/uikit'
 import { useTranslation } from 'contexts/Localization'
+import styled from 'styled-components'
 import useTheme from 'hooks/useTheme'
 import useToast from 'hooks/useToast'
 import { Token } from '@pancakeswap/sdk'
 import { formatNumber } from 'utils/formatBalance'
-import useHarvestPool from '../../../hooks/useHarvestPool'
+import { useHarvestPool, useHarvestTime } from '../../../hooks/useHarvestPool'
 import useStakePool from '../../../hooks/useStakePool'
 
 interface CollectModalProps {
@@ -29,6 +30,30 @@ interface CollectModalProps {
   isCompoundPool?: boolean
   onDismiss?: () => void
 }
+const StyledModal = styled(Modal)`
+  padding: 10px;
+  text-align: center;
+  > :first-child {
+    display: none;
+  }
+`
+const StyledModalTitle = styled('div')`
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+`
+const StyledModalTimee = styled('div')`
+  color: #53F3C3;
+  font-size: 24px;
+  margin-top: 10px;
+  padding: 10px;
+`
+const StyledModalDescription = styled('div')`
+  color: #8B95A8;
+  font-size: 12px;
+  margin-top: 10px;
+  padding: 10px;
+`
 
 const CollectModal: React.FC<CollectModalProps> = ({
   formattedBalance,
@@ -54,6 +79,8 @@ const CollectModal: React.FC<CollectModalProps> = ({
     </>,
     { placement: 'bottom-end', tooltipOffset: [20, 10] },
   )
+
+
 
   const handleHarvestConfirm = async () => {
     setPendingTx(true)
@@ -90,7 +117,35 @@ const CollectModal: React.FC<CollectModalProps> = ({
     }
   }
 
+  const secondsToHms = (d)=>{
+    if(d<=0) return '00:00:00'
+    const h = Math.floor(d / 3600);
+    const m = Math.floor(d % 3600 / 60);
+    const s = Math.floor(d % 3600 % 60);
+  
+    const hDisplay = (h<10?h.toString().padStart(2,"0"):h.toString()).concat(":");
+    const mDisplay = (m<10?m.toString().padStart(2,"0"):m.toString()).concat(":");
+    const sDisplay = (s<10?s.toString().padStart(2,"0"):s.toString());
+    return hDisplay + mDisplay + sDisplay;
+  }
+  
+  const harvestTime = useHarvestTime(sousId)
+  const [timeString, setLeftTime] = useState<string>()
+  const timeNow = new Date().getTime()/1000
+  setInterval(() => {
+    const now = new Date().getTime()/1000
+    setLeftTime(secondsToHms(harvestTime-now))
+  }, 300)
+  
+  
   return (
+    !harvestTime || harvestTime-timeNow>0?(
+      <StyledModal title={t('Harvest Not Available')}>
+    <StyledModalTitle>Harvest Not Available</StyledModalTitle>
+    <StyledModalTimee>{timeString}</StyledModalTimee>
+    <StyledModalDescription>Please try again after timelock ended.</StyledModalDescription>
+  </StyledModal>
+    ) :(
     <Modal
       title={`${earningToken.symbol} ${isCompoundPool ? t('Collect') : t('Harvest')}`}
       onDismiss={onDismiss}
@@ -138,6 +193,7 @@ const CollectModal: React.FC<CollectModalProps> = ({
         {t('Close Window')}
       </Button>
     </Modal>
+    )
   )
 }
 

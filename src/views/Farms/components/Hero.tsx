@@ -30,9 +30,9 @@ const Hero = () => {
         justifyContent="center"
         mt={['0px', null, 0]}
         id="homepage-hero"
-        mr={isMobile?"-40px":"0"}
+        mr={isMobile?"0px":"0"}
       >
-        <Flex flex="1" flexDirection="column" ml={isMobile?"-20px":"0"}>
+        <Flex flex="1" flexDirection="column" ml={isMobile?"0px":"0"}>
           <Heading color="primary" mt="50px" mb="24px" style={{whiteSpace:'nowrap',fontSize:isMobile?"medium":"xxx-large"}}>
             <span style={{ color: 'white' }}>{t('Provide Liquidity, Earn ')}</span>
             {t('GO')}

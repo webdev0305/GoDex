@@ -6,6 +6,7 @@ import { useTranslation } from 'contexts/Localization'
 import { getFullDisplayBalance, getBalanceNumber, formatNumber } from 'utils/formatBalance'
 // import Balance from 'components/Balance'
 import CollectModal from '../Modals/CollectModal'
+import { useHarvestPool, useHarvestTime } from '../../../hooks/useHarvestPool'
 
 interface HarvestActionsProps {
   earnings: BigNumber
@@ -34,6 +35,7 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
   const hasEarnings = earnings.toNumber() > 0
   const isCompoundPool = sousId === 0
 
+  const harvestTime = useHarvestTime(sousId)
   const [onPresentCollect] = useModal(
     <CollectModal
       formattedBalance={formattedBalance}
@@ -47,7 +49,7 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
   )
 
   return (
-    <ButtonMenuItem disabled={!hasEarnings} onClick={onPresentCollect}>
+    <ButtonMenuItem disabled={!hasEarnings || !harvestTime} onClick={onPresentCollect}>
       {isCompoundPool ? t('Collect') : t('Harvest')}
       <svg xmlns="http://www.w3.org/2000/svg" width="20.227" height="20.227" viewBox="0 0 20.227 20.227" style={{marginLeft:'8px'}}>
         <g transform="translate(-2.25 -2.25)">

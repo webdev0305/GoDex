@@ -132,11 +132,13 @@ export default function PoolsRender() {
             <Flex alignItems="center">
               <DoubleCurrencyLogo currency0={unwrappedToken(v2Pair.token0)} currency1={unwrappedToken(v2Pair.token1)} size={30} margin />
               <Text fontSize={isMobile?"12px":"20px"} ml={isMobile?"5px":"20px"}>{addressEllipsis(v2Pair.liquidityToken.address)}</Text>
+              <a href={`https://bscscan.com/address/${v2Pair.liquidityToken.address}`} rel="noreferrer" target="_blank">
               <Button variant="text" ml="-15px" mr="-15px">
                 <svg xmlns="http://www.w3.org/2000/svg" width={isMobile?"16":"24"} height={isMobile?"16":"24"} viewBox="0 0 24 24">
                   <path id="Icon_awesome-share-square" data-name="Icon awesome-share-square" d="M26.612,8.318l-6.741,6.374a1.124,1.124,0,0,1-1.895-.818V10.5c-6.768.045-9.623,1.646-7.713,8.032a.75.75,0,0,1-1.171.812,9.027,9.027,0,0,1-3.474-6.72c0-6.747,5.505-8.086,12.358-8.124V1.126A1.124,1.124,0,0,1,19.871.308l6.741,6.374A1.126,1.126,0,0,1,26.612,8.318Zm-8.636,9.454V21H3V6H5.379a.561.561,0,0,0,.4-.173A9.127,9.127,0,0,1,8.172,4.061.562.562,0,0,0,7.913,3H2.247A2.248,2.248,0,0,0,0,5.25v16.5A2.248,2.248,0,0,0,2.247,24H18.725a2.248,2.248,0,0,0,2.247-2.25V17.587a.562.562,0,0,0-.75-.53,3.358,3.358,0,0,1-1.6.158A.563.563,0,0,0,17.976,17.772Z" transform="translate(0 0)" fill="#fff"/>
                 </svg>
               </Button>
+              </a>
             </Flex>
           </td>
           <td style={{padding:"10px 5px"}}>

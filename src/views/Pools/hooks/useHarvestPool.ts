@@ -2,11 +2,13 @@ import { useCallback } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { useAppDispatch } from 'state'
 import { updateUserBalance, updateUserPendingReward } from 'state/actions'
+import {useSingleCallResult}  from 'state/multicall/hooks'
 import { harvestFarm } from 'utils/calls'
 import { BIG_ZERO } from 'utils/bigNumber'
 import getGasPrice from 'utils/getGasPrice'
 import { useMasterchef, useSousChef } from 'hooks/useContract'
 import { DEFAULT_GAS_LIMIT } from 'config'
+import BigNumber from 'bignumber.js'
 
 const options = {
   gasLimit: DEFAULT_GAS_LIMIT,
@@ -26,7 +28,7 @@ const harvestPoolBnb = async (sousChefContract) => {
   return receipt.status
 }
 
-const useHarvestPool = (sousId, isUsingBnb = false) => {
+export const useHarvestPool = (sousId, isUsingBnb = false) => {
   const dispatch = useAppDispatch()
   const { account } = useWeb3React()
   const sousChefContract = useSousChef(sousId)
@@ -47,4 +49,12 @@ const useHarvestPool = (sousId, isUsingBnb = false) => {
   return { onReward: handleHarvest }
 }
 
-export default useHarvestPool
+
+export const useHarvestTime = (sousId) => {
+  const { account } = useWeb3React()
+  const masterChefContract = useMasterchef()
+  const userInfo = useSingleCallResult(masterChefContract, 'userInfo', [sousId, account])
+  return new BigNumber (userInfo?.result?.nextHarvestUntil?._hex).toNumber()
+}
+
+// export default useHarvestPool

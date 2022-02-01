@@ -36,13 +36,13 @@ const WithdrawContent: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, m
     (e: React.FormEvent<HTMLInputElement>) => {      
       if (e.currentTarget.validity.valid) {
         setVal(e.currentTarget.value.replace(/,/g, '.'))
-        if(val===getFullDisplayBalance(max.dividedBy(4),18,18))
+        if(val===getFullDisplayBalance(max.dividedBy(4),18,10))
           setPercent(25)
-        else if(val===getFullDisplayBalance(max.dividedBy(2),18,18))
+        else if(val===getFullDisplayBalance(max.dividedBy(2),18,10))
           setPercent(50)
-        else if(val===getFullDisplayBalance(max.multipliedBy(3).dividedBy(4),18,18))
+        else if(val===getFullDisplayBalance(max.multipliedBy(3).dividedBy(4),18,10))
           setPercent(75)
-        else if(val===getFullDisplayBalance(max,18,18))
+        else if(val===getFullDisplayBalance(max,18,10))
           setPercent(100)
         else
           setPercent(0)
@@ -106,7 +106,7 @@ const WithdrawContent: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, m
       <Flex flexWrap="wrap" justifyContent="space-around" mt="20px">
         <Button scale="sm" color="white"
           onClick={() => {
-            setVal(getFullDisplayBalance(max.dividedBy(4),18,18))
+            setVal(getFullDisplayBalance(max.dividedBy(4),18,10))
             setPercent(25)
           }}
           variant={valPercent===25 ? 'primary' : 'tertiary'}
@@ -115,7 +115,7 @@ const WithdrawContent: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, m
         </Button>
         <Button scale="sm" color="white"
           onClick={() => {
-            setVal(getFullDisplayBalance(max.dividedBy(2),18,18))
+            setVal(getFullDisplayBalance(max.dividedBy(2),18,10))
             setPercent(50)
           }}
           variant={valPercent===50 ? 'primary' : 'tertiary'}
@@ -124,7 +124,7 @@ const WithdrawContent: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, m
         </Button>
         <Button scale="sm" color="white"
           onClick={() => {
-            setVal(getFullDisplayBalance(max.multipliedBy(3).dividedBy(4),18,18))
+            setVal(getFullDisplayBalance(max.multipliedBy(3).dividedBy(4),18,10))
             setPercent(75)
           }}
           variant={valPercent===75 ? 'primary' : 'tertiary'}

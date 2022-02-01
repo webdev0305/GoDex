@@ -246,42 +246,42 @@ const Home: React.FC = () => {
             <tbody>
               <tr>
                 <td>Farms &amp; Pools</td>
-                <td>80,000,000</td>
-                <td>80%</td>
+                <td>140 M</td>
+                <td>70%</td>
                 <td>
-                  <Progress variant="round" primaryStep={80} />
+                  <Progress variant="round" primaryStep={70} />
                 </td>
               </tr>
               <tr>
-                <td>Airdrop</td>
-                <td>1,000,000</td>
-                <td>1%</td>
+                <td>Airdrop &amp; Competitions</td>
+                <td>5 M</td>
+                <td>2.5%</td>
                 <td>
-                  <Progress variant="round" primaryStep={1} />
+                  <Progress variant="round" primaryStep={2.5} />
                 </td>
               </tr>
               <tr>
                 <td>Team &amp; Advisors</td>
-                <td>10,000,000</td>
-                <td>10%</td>
+                <td>10 M</td>
+                <td>15%</td>
                 <td>
-                  <Progress variant="round" primaryStep={10} />
+                  <Progress variant="round" primaryStep={15} />
                 </td>
               </tr>
               <tr>
                 <td>IDO Distribution</td>
-                <td>5,000,000</td>
-                <td>5%</td>
+                <td>15 M</td>
+                <td>7.5%</td>
                 <td>
-                  <Progress variant="round" primaryStep={5} />
+                  <Progress variant="round" primaryStep={7.5} />
                 </td>
               </tr>
               <tr>
                 <td>Liquidity</td>
-                <td>4,000,000</td>
-                <td>4%</td>
+                <td>10 M</td>
+                <td>5%</td>
                 <td>
-                  <Progress variant="round" primaryStep={4} />
+                  <Progress variant="round" primaryStep={5} />
                 </td>
               </tr>
             </tbody>
