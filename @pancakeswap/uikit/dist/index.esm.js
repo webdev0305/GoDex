@@ -4669,6 +4669,7 @@ var socials = [
     {
         label: "Telegram",
         icon: "Telegram",
+        href: "https://t.me/godextoken",
         items: [
             {
                 label: "English",
@@ -4679,6 +4680,7 @@ var socials = [
                 href: "https://t.me/godextokenAnn",
             },
         ],
+        
     },
     {
         label: "Twitter",
@@ -4711,7 +4713,7 @@ var SocialLinks = function (_a) {
             color: "#36425A",
             style: { cursor: "pointer", fill: "#36425A" },
         };
-        var mr = index < socials.length - 1 ? "45px" : 0;
+        var mr = index < socials.length - 1 ? "30px" : 0;
         if (social.items) {
             return (React__default.createElement(Dropdown, { key: social.label, position: "top", target: React__default.createElement(IconComponent, __assign({}, iconProps, { mr: mr })) }, social.items.map(function (item) { return (React__default.createElement(Link, { external: true, key: item.label, href: item.href, "aria-label": item.label, color: "textSubtle" }, item.label)); })));
         }
@@ -4766,7 +4768,7 @@ var LangSelector = function (_a) {
         style: { minHeight: "32px", height: "auto" } }, lang.language)); })));
 };
 var LangSelector$1 = React__default.memo(LangSelector, function (prev, next) { return prev.currentLang === next.currentLang; });
-const ContactBox = React__default.createElement('div',{ style: { padding: '20px', background: '#1F2533', borderRadius: '10px', color: '#8B95A8', marginTop: '40px', fontFamily: 'Poppins', width: '350px'}}, 
+const ContactBox = React__default.createElement('div',{ style: { padding: '20px', background: '#1F2533', borderRadius: '10px', color: '#8B95A8', marginTop: '40px', fontFamily: 'Poppins', maxWidth: '350px'}}, 
     React__default.createElement('h2',{style: { fontSize: '1.3em', margin: '10px 0', color: 'white' }}, "Join Our Newsletter"), 
     React__default.createElement('p', {style:{minHeight: '4em'}}, "Submit your email to get latest news"),
     React__default.createElement(Flex, { flexDirection: "row", style:{borderBottom: '1px solid #4a5568'} },
